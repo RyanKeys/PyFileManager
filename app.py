@@ -2,35 +2,36 @@ import os
 source = os.getcwd()
 all_dirs = []
 
-# for folder in folders:
-#     if ".py" in folder:
-#         pass
-#     else:
-#         # subfolder
-#         subfolder = os.listdir(os.path.join(folder))
-#         for item in subfolder:
-#             if ".mp4" in item:
-#                 print(item)
-#             else:
-#                 pass
 
+def get_all_dirs(folder):
+    '''
+    Retrieves all directories
 
-def has_subdirs(folder):
+    Takes the directory PyFileManager is located in unless specified otherwise(takes your path as a string. ex: folder = os.getcwd()) and returns all subdirectories as a list of dictionaries.
+
+    Parameters:
+    folder (list): List of all files in your current directory.
+
+    Returns:
+    list: List of dictionaries containing subdirectory name and the path.
+
+    '''
     folders = os.listdir(folder)
     if len(folders) > 0:
         for potential_subdir in folders:
             if "." in potential_subdir:
                 pass
+
             else:
                 potential_subdir_path = os.path.join(
                     folder, potential_subdir)
                 all_dirs.append({potential_subdir: potential_subdir_path})
-                has_subdirs(potential_subdir_path)
+                get_all_dirs(potential_subdir_path)
     return all_dirs
 
 
 def test():
-    print(has_subdirs(folder=source))
+    print(get_all_dirs(folder=source))
 
 
 if __name__ == "__main__":
