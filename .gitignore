@@ -1,3 +1,4 @@
 HIDDEN.md
+/.vscode/
 /__pycache__/
-**/*.pyc
+*.pyc
