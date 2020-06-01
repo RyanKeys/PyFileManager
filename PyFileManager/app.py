@@ -1,42 +1,41 @@
 import os
 import sys
-from update import move_all_files_by_extension
+import update
+import cli
+import time
 
 
 class PyFileManager:
 
     def __init__(self):
-        self.debug = False
-
-    def move_files(self, source_location, target_location, file_type):
-
-        return move_all_files_by_extension(source_location, target_location, file_type)
+        self.rows, self.columns = os.get_terminal_size()
+        cli.start_prompt(self.rows, self.columns, "~")
 
 
-p = PyFileManager()
 
-
-def test():
-    print(p.move_files())
-
-
-if __name__ == "__main__" and p.debug == True:
+def run():
+    p = PyFileManager()
     try:
-        source = sys.argv[1]
-    except IndexError:
-        source = os.getcwd()
-        prev_dir = source.rfind("/")
-        for i in range(prev_dir):
-            source.join(source[i])
+        user_input = input()
+        if user_input == "-help":
+            cli.command_list(p.rows, p.columns, "~")
+            run()
+        elif user_input == "-m":
+            selection, source_location, target_location, extension = cli.move_files_prompt()
+            if selection == "-x":
+                update.move_all_files_by_extension(
+                    source_location, target_location, extension)
+        else:
+            print("\nPlease enter a valid command. Type -help for more info.")
+            run()
+    except KeyboardInterrupt:
+        for i in range(0, 4):
+            print(f"\nClosing PyFileManager{i * '.'}")
+            time.sleep(.6)
+            os.system('clear')
 
-    test()
+        quit()
 
-try:
-    source = str(sys.argv[1])
-    target_location = str(sys.argv[2])
-    file_type = str(sys.argv[3])
-except IndexError:
-    print("Error. Please enter source location and target location")
-pass
 
-p.move_files(source, target_location, file_type)
+if __name__ == "__main__":
+    run()
