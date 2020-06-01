@@ -1,7 +1,7 @@
 import os
 import time
+import read
 import main
-
 
 # The CLI script is used to format and control the terminal window in relationship to PyFileManager's methods.
 
@@ -37,24 +37,41 @@ def user_input_prompts(rows, columns):
         user_input = input()
         if user_input == "-help":
             command_list(rows, columns)
-            user_input_prompts(rows, columns)
         elif user_input == "-m":
-            responses = move_files_prompt()
-
+            selection = move_files_prompt(rows, columns)
+        elif user_input == "-g":
+            selection = get_directories_prompt()
         else:
             print("\nPlease enter a valid command. Type -help for more info.")
             user_input_prompts(rows, columns)
     except KeyboardInterrupt:
         quit_prompt()
+    return selection
+
+
+def get_directories_prompt():
+    responses = {}
+    active_dir = input(
+        "Choose a starting directory (If none specified, uses location of PyFileManager installation\n")
+    if active_dir is "":
+        responses.update({"selection": "-g", "active_dir": "/"})
+    else:
+        responses.update({"selection": "-g", "active_dir": active_dir})
     return responses
 
 
-def move_files_prompt():
+def move_files_prompt(rows, columns):
     responses = {}
-    print("\nMove Files selected:\n")
-    print("-x: By extension\n")
+    print("~"*len("Move files selected: |"))
+    print("Move files selected: |")
+    print("~"*len("Move files selected: |"))
+    print("\n-x: By extension\n")
+    print("-b: Go back\n")
     while True:
         selection = input("Enter a selection method:\n")
+        if selection == "-b":
+            start_prompt(rows, columns)
+            user_input_prompts(rows, columns)
         if selection == "-x":
             confirm = input(
                 "Selected file movement by extension Correct? [Y/n]")
@@ -69,10 +86,13 @@ def move_files_prompt():
                 break
             elif confirm.lower() == "n":
                 pass
+        else:
+            print(f"{selection} isn't a valid input.")
     return responses
 
 
 def command_list(rows, columns):
+
     print("\n")
     print(("~"*len("| Command List: |")).center(rows, " "))
     print("| Command List: |".center(rows, " "))
@@ -82,13 +102,17 @@ def command_list(rows, columns):
     print(" -m (move files): |")
     print(("~"*len(" -m (move files): |")))
     print("\n")
-    print("Moves files determined by inputing a source location(starting point), a target location(ending point), and your determined files: x (Extension. Ex: finds all .txt files), or c (Contains. Ex: find all files with your name in the title.)")
+    print("Moves files determined by inputing a source location(starting point), a target location(ending point), and your desired files: -x (Extension. Ex: finds all .txt files), or -c (Contains. Ex: find all files with your name in the title.)")
     print("Use Case:\nEnter source location: /Users/pc_name/SOURCE_LOCATION\nEnter a target location: /Users/pc_name/TARGET_LOCATION")
 
 
 if __name__ == "__main__":
     p = main.PyFileManager()
+    start_prompt(p.rows, p. columns)
     p.cli_boot()
     if p.responses["selection"] == "-m -x":
         p.move_all_files_by_extension(
             p.responses["source_location"], p.responses["target_location"], p.responses["extension"])
+    if p.responses["selection"] == "-g":
+        print("\n")
+        p.get_all_dirs(p.responses["active_dir"])

@@ -1,12 +1,12 @@
 import os
-all_dirs = []
+all_dirs = {}
 all_file_paths = []
 
 
 def get_all_dirs(active_dir):
     '''Takes active directory and returns all subdirectories. Example argument: /Users/your_pc/chosen_dir'''
     for path, dirs, files in os.walk(active_dir):
-        all_dirs.append(dirs)
+        all_dirs.update({path: dirs})
     return all_dirs
 
 
