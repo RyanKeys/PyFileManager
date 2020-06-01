@@ -13,6 +13,8 @@ def get_all_dirs(active_dir):
 def get_all_files_by_extension(active_dir, extension):
     '''Looks for all files of specified extension in root directory, and all subdirectories. Returns a dictionary of file names and their respective absolute paths'''
     for path, dirs, files in os.walk(active_dir):
+        if "." not in extension[0]:
+            extension = "." + extension.lower()
         for f in files:
             if extension in f:
                 all_file_paths.append({f: path})
