@@ -25,6 +25,12 @@ class PyFileManager:
                 self.cli_boot()
         return all_dirs
 
+    def command_list(self, rows, columns):
+        if sys.argv[0] == "cli.py":
+            sol = cli.command_list(rows, columns)
+            self.cli_boot()
+        return sol
+
     def move_all_files_by_extension(self, source_location, target_location, extension):
         update.move_all_files_by_extension(
             source_location, target_location, extension)

@@ -33,23 +33,21 @@ def quit_prompt():
 
 
 def user_input_prompts(rows, columns):
-    try:
-        user_input = input("\nEnter a command:\n")
-        if user_input == "-help":
-            selection = command_list(rows, columns)
-            return selection
-        elif user_input == "-m":
-            selection = move_files_prompt(rows, columns)
-            return selection
-        elif user_input == "-g":
-            selection = get_directories_prompt()
-            return selection
-        else:
-            print("\nPlease enter a valid command. Type -help for more info.")
-        user_input_prompts(rows, columns)
-    except KeyboardInterrupt:
-        quit_prompt()
-    return selection
+    while True:
+        try:
+            user_input = input("\nEnter a command:\n")
+            if user_input == "-help":
+                selection = command_list(rows, columns)
+            elif user_input == "-m":
+                selection = move_files_prompt(rows, columns)
+                return selection
+            elif user_input == "-g":
+                selection = get_directories_prompt()
+                return selection
+            else:
+                print("\nPlease enter a valid command. Type -help for more info.")
+        except KeyboardInterrupt:
+            quit_prompt()
 
 
 def get_directories_prompt():
@@ -57,7 +55,7 @@ def get_directories_prompt():
     active_dir = input(
         "Choose a starting directory (If none specified, uses location of PyFileManager installation\n")
     if active_dir is "":
-        responses.update({"selection": "-g", "active_dir": "/"})
+        responses.update({"selection": "-g", "active_dir": "~"})
     else:
         responses.update({"selection": "-g", "active_dir": active_dir})
     return responses
@@ -75,6 +73,7 @@ def move_files_prompt(rows, columns):
         if selection == "-b":
             start_prompt(rows, columns)
             user_input_prompts(rows, columns)
+            break
         if selection == "-x":
             confirm = input(
                 "Selected file movement by extension Correct? [Y/n]")
@@ -119,10 +118,7 @@ if __name__ == "__main__":
     if p.responses["selection"] == "-m -x":
         p.move_all_files_by_extension(
             p.responses["source_location"], p.responses["target_location"], p.responses["extension"])
-    if "-g" in p.responses["selection"]:
+    if p.responses["selection"] == "-g":
         print("\n")
         print(p.get_all_dirs(p.responses["active_dir"]))
-    if p.responses["selection"] == "-help":
-        p.cli_boot()
-    else:
-        p.cli_boot()
+    p.cli_boot()
