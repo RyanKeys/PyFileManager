@@ -34,16 +34,19 @@ def quit_prompt():
 
 def user_input_prompts(rows, columns):
     try:
-        user_input = input()
+        user_input = input("\nEnter a command:\n")
         if user_input == "-help":
-            command_list(rows, columns)
+            selection = command_list(rows, columns)
+            return selection
         elif user_input == "-m":
             selection = move_files_prompt(rows, columns)
+            return selection
         elif user_input == "-g":
             selection = get_directories_prompt()
+            return selection
         else:
             print("\nPlease enter a valid command. Type -help for more info.")
-            user_input_prompts(rows, columns)
+        user_input_prompts(rows, columns)
     except KeyboardInterrupt:
         quit_prompt()
     return selection
@@ -104,6 +107,9 @@ def command_list(rows, columns):
     print("\n")
     print("Moves files determined by inputing a source location(starting point), a target location(ending point), and your desired files: -x (Extension. Ex: finds all .txt files), or -c (Contains. Ex: find all files with your name in the title.)")
     print("Use Case:\nEnter source location: /Users/pc_name/SOURCE_LOCATION\nEnter a target location: /Users/pc_name/TARGET_LOCATION")
+    print("~" * rows + "\n")
+    responses = {"selection": "-help"}
+    return responses
 
 
 if __name__ == "__main__":
@@ -113,6 +119,10 @@ if __name__ == "__main__":
     if p.responses["selection"] == "-m -x":
         p.move_all_files_by_extension(
             p.responses["source_location"], p.responses["target_location"], p.responses["extension"])
-    if p.responses["selection"] == "-g":
+    if "-g" in p.responses["selection"]:
         print("\n")
-        p.get_all_dirs(p.responses["active_dir"])
+        print(p.get_all_dirs(p.responses["active_dir"]))
+    if p.responses["selection"] == "-help":
+        p.cli_boot()
+    else:
+        p.cli_boot()
