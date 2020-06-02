@@ -112,7 +112,7 @@ def command_list(rows, columns):
     print("~" * len(" -g (Get all directories) |"))
     print(" -g (Get all directories) |")
     print("~" * len(" -g (Get all directories) |"))
-    print("\nLists all directories inside a specified root.\nEx:\n/Users/\n")
+    print("\nLists all directories inside a specified root.\nEx:\n/Users/pc_name/PyFileManager\n")
     print("~" * rows + "\n")
     responses = {"selection": "-help"}
     return responses
