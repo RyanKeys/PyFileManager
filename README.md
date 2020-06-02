@@ -9,5 +9,9 @@ A way to mass move files using Python!
 <h2>Getting Started</h2>
 <p>To download PyFileManager, type "$ git clone https://github.com/RyanKeys/PyFileManager.git" into your terminal. Alternatively, you can download the a .zip file under the "clone or download" tab of this page.<p>
 <p>If you don't have git installed download it <a href="https://git-scm.com/downloads">here</a>
+ <p>Once installed, navigate to the new repository in your terminal. Then type: "$ python cli.py"</p>
+ <p>If you have any questions, feel free to reach out!</p>
+ <p>r.keys1998@gmail.com</p>
+  
 
 
