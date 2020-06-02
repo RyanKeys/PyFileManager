@@ -52,13 +52,17 @@ def user_input_prompts(rows, columns):
 
 def get_directories_prompt():
     responses = {}
-    active_dir = input(
-        "Choose a starting directory (If none specified, uses location of PyFileManager installation\n")
-    if active_dir is "":
-        responses.update({"selection": "-g", "active_dir": "~"})
-    else:
-        responses.update({"selection": "-g", "active_dir": active_dir})
-    return responses
+    while True:
+        active_dir = input(
+            "Choose a starting directory (If none specified, uses location of PyFileManager installation\n")
+        if active_dir is "":
+            responses.update({"selection": "-g", "active_dir": "/"})
+            return responses
+        if active_dir == "-b":
+            break
+        else:
+            responses.update({"selection": "-g", "active_dir": active_dir})
+            return responses
 
 
 def move_files_prompt(rows, columns):

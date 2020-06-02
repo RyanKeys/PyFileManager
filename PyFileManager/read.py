@@ -1,12 +1,21 @@
 import os
+import sys
+import time
 all_dirs = {}
 all_file_paths = []
 
 
 def get_all_dirs(active_dir):
     '''Takes active directory and returns all subdirectories. Example argument: /Users/your_pc/chosen_dir'''
-    for path, dirs, files in os.walk(active_dir):
-        all_dirs.update({path: dirs})
+    while True:
+        try:
+            for path, dirs, files in os.walk(active_dir):
+                if sys.argv[0] == 'cli.py':
+                    print(path)
+                all_dirs.update({path: dirs})
+        except KeyboardInterrupt:
+            os.system("clear")
+            break
     return all_dirs
 
 
