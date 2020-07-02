@@ -36,3 +36,9 @@ class PyFileManager:
             source_location, target_location, extension)
         if sys.argv[0] == "cli.py":
             self.cli_boot()
+
+
+if __name__ == "__main__":
+    p = PyFileManager()
+    cli.start_prompt(p.rows,p.columns)
+    p.cli_boot()
